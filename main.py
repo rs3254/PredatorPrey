@@ -6,44 +6,39 @@ class Organism:
 		print("stuff")
 
 
+
 class ant(Organism):
 
-	def move():
+	def move(self):
+		print("t")
+
+
+class antSpider(Organism):
+	
+	def move(self):
 		print("t")
 
 
 
 def genPositionsPred():
 
-	x = randint(0, 19)
-	y = randint(0, 19)
-	i = 0
-	position = (x, y)
 	predL = [] 
-
-	while i < 5:
-		if position not in predL:
-			predL.append(position)
-			i += 1
-		else:
-			x = randint(0, 19)
-			y = randint(0, 19)
-			position = (x, y)
-
-
-
+	genPositionHelper(5, predL)
 
 	return predL
 
-def genPositionsPrey(predL):
 
+
+def genPositionHelper(num, predL, preyL=None):
+	i = 0
 	x = randint(0, 19)
 	y = randint(0, 19)
-	i = 0
 	position = (x, y)
-	preyL = [] 
-	while i < 10:
-		if position not in predL and position not in preyL:
+	while i < num:
+		if position not in predL and preyL == None:
+			predL.append(position)
+			i += 1
+		elif position not in predL and position not in preyL:
 			preyL.append(position)
 			i += 1
 		else:
@@ -51,10 +46,9 @@ def genPositionsPrey(predL):
 			y = randint(0, 19)
 			position = (x, y)
 
+	return preyL or predL
 
 
-
-	return preyL
 
 def printWorld(world):
 	for j in range(0, 20):
@@ -65,12 +59,13 @@ def printWorld(world):
 
 
 
-obj = Organism()
+
+obj = ant()
 obj.move()
 
 world = [["-" for j in range(0, 20)] for z in range(0, 20)] 
-predL = genPositionsPred()
-preyL = genPositionsPrey(predL)
+predL = genPositionHelper(5, [])
+preyL = genPositionHelper(10, predL, [])
 
 
 for j in predL:
